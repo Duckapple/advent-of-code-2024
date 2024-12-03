@@ -1,6 +1,6 @@
 const now = new Date();
 const year = now.getFullYear(),
-  day = Number(Deno.args[0]) ?? now.getDate();
+  day = Number(Deno.args[0]) || now.getDate();
 const url = `https://adventofcode.com/${year}/day/${day}`;
 
 const dir = `./${day < 10 ? "0" + day : day}`;
@@ -11,6 +11,8 @@ const folderSetup = Deno.mkdir(dir).then(() => {
     Deno.writeTextFile(
       dir + "/sol.ts",
       `
+const text = await Deno.readTextFile("${dir}/input");
+
 let sol1 = 0;
 
 console.log('Solution 1:', sol1);
