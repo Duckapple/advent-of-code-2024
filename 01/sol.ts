@@ -1,4 +1,4 @@
-import { zip } from "../common.ts";
+import { zip } from "../common/array.ts";
 
 const text = await Deno.readTextFile("./01/input");
 
