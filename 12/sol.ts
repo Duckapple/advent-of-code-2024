@@ -1,5 +1,5 @@
-import { adj } from "../common/array.ts";
-import { Vec2 } from "../common/array.ts";
+import { adj, hash } from "../common/array.ts";
+import type { Vec2 } from "../common/array.ts";
 
 const text = await Deno.readTextFile("./12/input");
 // const text = await Deno.readTextFile("./12/example");
@@ -7,15 +7,8 @@ const text = await Deno.readTextFile("./12/input");
 // const text = await Deno.readTextFile("./12/example3");
 const lines = text.split("\n");
 
-function hash(pos: Vec2) {
-  return pos[0] * lines[0].length + pos[1];
-}
-function unhash(pos: number) {
-  return [Math.floor(pos / lines[0].length), pos % lines[0].length];
-}
-
 function BFS(origin: Vec2) {
-  const visited = new Set<number>([hash(origin)]);
+  const visited = new Set<number>([hash(origin, lines[0].length)]);
   const region = { area: 0, perimeter: 0, perimCount: 0 };
   const queue: Vec2[] = [origin];
   const type = lines[origin[0]][origin[1]];
@@ -33,7 +26,7 @@ function BFS(origin: Vec2) {
         edges[i].push(pos);
         continue;
       }
-      const h = hash(adjPos);
+      const h = hash(adjPos, lines[0].length);
       if (!visited.has(h)) {
         queue.push(adjPos);
         visited.add(h);
@@ -64,7 +57,7 @@ const regions: { area: number; perimeter: number; perimCount: number }[] = [];
 for (let i = 0; i < lines.length; i++) {
   const line = lines[i];
   for (let j = 0; j < line.length; j++) {
-    if (visited.has(hash([i, j]))) continue;
+    if (visited.has(hash([i, j], lines[0].length))) continue;
     const res = BFS([i, j]);
     regions.push(res.region);
     visited = visited.union(res.visited);

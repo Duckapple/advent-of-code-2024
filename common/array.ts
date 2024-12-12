@@ -38,10 +38,23 @@ export function adj(pos: Vec2): Vec2[] {
   ];
 }
 
+adj[0] = [-1, 0] as Vec2;
+adj[1] = [0, -1] as Vec2;
+adj[2] = [1, 0] as Vec2;
+adj[3] = [0, 1] as Vec2;
+
 export function sum(arr: number[]) {
   let sum = 0;
   for (const element of arr) {
     sum += element;
   }
   return sum;
+}
+
+export function hash(pos: Vec2, oneDimLength: number) {
+  return pos[0] * oneDimLength + pos[1];
+}
+
+export function unhash(pos: number, oneDimLength: number) {
+  return [Math.floor(pos / oneDimLength), pos % oneDimLength];
 }
