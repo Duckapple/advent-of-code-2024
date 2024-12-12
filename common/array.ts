@@ -37,3 +37,11 @@ export function adj(pos: Vec2): Vec2[] {
     add(pos, [0, 1]),
   ];
 }
+
+export function sum(arr: number[]) {
+  let sum = 0;
+  for (const element of arr) {
+    sum += element;
+  }
+  return sum;
+}
