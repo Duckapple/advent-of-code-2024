@@ -10,9 +10,8 @@ const folderSetup = Deno.mkdir(dir).then(() => {
     Deno.writeTextFile(dir + "/example", ""),
     Deno.writeTextFile(
       dir + "/sol.ts",
-      `
-// const text = await Deno.readTextFile("${dir}/input");
-const text = await Deno.readTextFile("${dir}/example");
+      `// const text = (await Deno.readTextFile("${dir}/input")).trim();
+const text = (await Deno.readTextFile("${dir}/example")).trim();
 
 let sol1 = 0;
 

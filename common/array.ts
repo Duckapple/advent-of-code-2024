@@ -1,4 +1,4 @@
-export type Vec2 = [number, number];
+export type Vec2<T = number> = [T, T];
 
 // from https://youmightnotneed.com/lodash/#zip
 export const zip = <T1 extends unknown, Tx extends unknown[][]>(
@@ -57,4 +57,17 @@ export function hash(pos: Vec2, oneDimLength: number) {
 
 export function unhash(pos: number, oneDimLength: number) {
   return [Math.floor(pos / oneDimLength), pos % oneDimLength];
+}
+
+export function groupBy<T, U extends string | number | symbol>(
+  arr: T[],
+  f: (t: T) => U
+): Record<U, T[]> {
+  const res = {} as Record<U, T[]>;
+  for (const el of arr) {
+    const x = f(el);
+    res[x] ??= [];
+    res[x].push(el);
+  }
+  return res;
 }
