@@ -1,7 +1,7 @@
 import { add, adj, hash, Vec2 } from "../common/array.ts";
 
-// const text = await Deno.readTextFile("./10/input");
-const text = await Deno.readTextFile("./10/example");
+const text = await Deno.readTextFile("./10/input");
+// const text = await Deno.readTextFile("./10/example");
 const lines = text.split("\n").map((x) => [...x].map((y) => Number(y)));
 
 // const memo = Array.from(lines, (a) => Array<{ nines: number }>(a.length));
@@ -60,8 +60,7 @@ function BFS(origin: Vec2, graph: Vec2[][][]) {
 let sol1 = 0;
 
 for (const zero of zeros) {
-  const g = structuredClone(graph);
-  sol1 += BFS(zero, g);
+  sol1 += BFS(zero, graph);
 }
 
 // console.log(zeros, nines);
@@ -69,6 +68,26 @@ for (const zero of zeros) {
 
 console.log("Solution 1:", sol1);
 
+const memo: number[] = [];
+hashNines.forEach((nine) => (memo[nine] = 1));
+
+function DFS(pos: Vec2, graph: Vec2[][][]) {
+  let count = 0;
+  for (const adjPos of graph[pos[0]][pos[1]]) {
+    const h = hash(adjPos, graph[0].length);
+    if (memo[h]) {
+      count += memo[h];
+      continue;
+    }
+    count += DFS(adjPos, graph);
+  }
+  memo[hash(pos, graph[0].length)] = count;
+  return count;
+}
+
 let sol2 = 0;
+for (const zero of zeros) {
+  sol2 += DFS(zero, graph);
+}
 
 console.log("Solution 2:", sol2);
